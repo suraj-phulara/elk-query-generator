@@ -1,0 +1,192 @@
+{
+    "mappings": {
+        "amazon_data_v2": {
+            "mappings": {
+                "properties": {
+                    "actual_price": {
+                        "type": "double"
+                    },
+                    "discount_price": {
+                        "type": "double"
+                    },
+                    "id": {
+                        "type": "integer"
+                    },
+                    "link": {
+                        "type": "text"
+                    },
+                    "main_category": {
+                        "type": "keyword"
+                    },
+                    "name": {
+                        "type": "search_as_you_type",
+                        "doc_values": false,
+                        "max_shingle_size": 3
+                    },
+                    "no_of_ratings": {
+                        "type": "integer"
+                    },
+                    "ratings": {
+                        "type": "double"
+                    },
+                    "sub_category": {
+                        "type": "keyword"
+                    }
+                }
+            }
+        }
+    },
+    "categories": {
+        "toys & baby products": [
+            "nursing & feeding",
+            "diapers",
+            "toys gifting store",
+            "strollers & prams",
+            "baby bath, skin & grooming",
+            "baby products",
+            "international toy store",
+            "stem toys store",
+            "toys & games"
+        ],
+        "home & kitchen": [
+            "all home & kitchen",
+            "home d\u00e9cor",
+            "kitchen & dining",
+            "garden & outdoors",
+            "indoor lighting",
+            "bedroom linen",
+            "sewing & craft supplies",
+            "furniture",
+            "home furnishing",
+            "home improvement",
+            "home storage",
+            "kitchen storage & containers"
+        ],
+        "appliances": [
+            "washing machines",
+            "refrigerators",
+            "air conditioners",
+            "all appliances",
+            "heating & cooling appliances",
+            "kitchen & home appliances"
+        ],
+        "stores": [
+            "women's fashion",
+            "the designer boutique",
+            "sportswear",
+            "amazon fashion",
+            "men's fashion"
+        ],
+        "sports & fitness": [
+            "cricket",
+            "fitness accessories",
+            "running",
+            "badminton",
+            "cardio equipment",
+            "camping & hiking",
+            "cycling",
+            "all exercise & fitness",
+            "all sports, fitness & outdoors",
+            "football",
+            "strength training",
+            "yoga"
+        ],
+        "car & motorbike": [
+            "car & bike care",
+            "all car & motorbike products",
+            "car accessories",
+            "car electronics",
+            "car parts",
+            "motorbike accessories & parts"
+        ],
+        "women's clothing": [
+            "clothing",
+            "western wear",
+            "lingerie & nightwear",
+            "ethnic wear"
+        ],
+        "beauty & health": [
+            "health & personal care",
+            "make-up",
+            "luxury beauty",
+            "beauty & grooming",
+            "diet & nutrition",
+            "household supplies",
+            "personal care appliances",
+            "value bazaar"
+        ],
+        "accessories": [
+            "watches",
+            "sunglasses",
+            "handbags & clutches",
+            "fashion & silver jewellery",
+            "jewellery",
+            "bags & luggage",
+            "gold & diamond jewellery"
+        ],
+        "grocery & gourmet foods": [
+            "snack foods",
+            "coffee, tea & beverages",
+            "all grocery & gourmet foods"
+        ],
+        "bags & luggage": [
+            "travel duffles",
+            "suitcases & trolley bags",
+            "wallets",
+            "backpacks",
+            "rucksacks",
+            "travel accessories"
+        ],
+        "industrial supplies": [
+            "industrial & scientific supplies",
+            "lab & scientific",
+            "janitorial & sanitation supplies",
+            "test, measure & inspect"
+        ],
+        "men's clothing": [
+            "innerwear",
+            "shirts",
+            "jeans",
+            "t-shirts & polos"
+        ],
+        "kids' fashion": [
+            "kids' watches",
+            "baby fashion",
+            "school bags",
+            "kids' clothing",
+            "kids' fashion",
+            "kids' shoes"
+        ],
+        "women's shoes": [
+            "shoes",
+            "ballerinas",
+            "fashion sandals"
+        ],
+        "tv, audio & cameras": [
+            "headphones",
+            "all electronics",
+            "camera accessories",
+            "cameras",
+            "home audio & theater",
+            "home entertainment systems",
+            "security cameras",
+            "speakers",
+            "televisions"
+        ],
+        "music": [
+            "musical instruments & professional audio"
+        ],
+        "home, kitchen, pets": [
+            "refurbished & open box"
+        ],
+        "pet supplies": [
+            "all pet supplies",
+            "dog supplies"
+        ],
+        "men's shoes": [
+            "casual shoes",
+            "formal shoes",
+            "sports shoes"
+        ]
+    }
+}
