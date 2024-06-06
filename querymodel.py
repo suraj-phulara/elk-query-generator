@@ -1,5 +1,5 @@
 from langchain_core.pydantic_v1 import BaseModel, Field
-from typing import List, Optional
+from typing import List, Dict, Optional
 
 
 class ProductQuerySchema(BaseModel):
@@ -10,3 +10,5 @@ class ProductQuerySchema(BaseModel):
     no_of_ratings: Optional[str] = Field(description="Number of ratings the product has received if mentioned in user query")
     ratings: Optional[str] = Field(description="Ratings of the product if mentioned in user query")
     sub_category: Optional[str] = Field(description="Sub-category of the product if mentioned in user query")
+    name_synonyms: Optional[Dict[str, List[str]]] = Field(description="Synonyms for each word in the name field")
+

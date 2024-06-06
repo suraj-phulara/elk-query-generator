@@ -18,7 +18,7 @@ load_dotenv()
 structured_index_name = os.getenv("structured_index_name")
 
 
-def chat_gpt(query, model="gpt-3.5-turbo-0301"):
+def chat_gpt(query, model="gpt-3.5-turbo-instruct"):
 
     model = ChatOpenAI(temperature=0)
 
@@ -34,9 +34,19 @@ def chat_gpt(query, model="gpt-3.5-turbo-0301"):
         partial_variables={"format_instructions": parser.get_format_instructions()},
     )
 
+    # chain = prompt | model | parser
+
+    # response = chain.invoke({"query": query})
+    def cus(res):
+        print(res)
+        st.write(res)
+        return res
+    from langchain_core.runnables import RunnableLambda
     chain = prompt | model | parser
 
     response = chain.invoke({"query": query})
+
+    return response
     
 
     return response
@@ -118,55 +128,51 @@ def main():
 
     if button and query:
 
-        prompt2 = f"""
+        prompt = f"""
 
-        carefully analyze the human language query :{query} given and under every aspect of it and classify the data between fields like name , main_subcategory, price etc..
-        
-        note: leave all the fields not presen in the human query
+        carefully analyze and disect the human language query :{query} and classify the data between fields like 
+
+        "name": ''
+        "name_synonyms":'',
+        "actual_price": '',
+        "discount_price": '',
+        "main_category": '',
+        "no_of_ratings": '',
+        "ratings": '',
+        "sub_category": ''
+
 
         Below JSON data contains categories and their corresponding subcategories. The top-level keys represent main categories, and each main category maps to a list of its subcategories:
         categories_info: {json.dumps(open_search_data.get('categories', {}), indent=4)}
 
 
-        now classify what the user is looking for based on this :
+
+        also add atleast 3 synonyms of each individual word present in the name field to the name_synonyms field (most important)
 
         
-        "actual_price": '',
-        "discount_price": '',
-        "main_category": '',
-        "name": '',
-        "no_of_ratings": '',
-        "ratings": '',
-        "sub_category": ''
 
-        LEAVE ANY FIELD THAT THE USER DID NOT WANT TO Secified but you must include everything the user specified for example the price range , etc ((most important))
+        NOTE : TREAT ACTUAL_PRICE AND DISCOUNTED_PRICE AS THE SAME FIELD both contains the price 
+        give extra care to always filling the price range fields dont leave them empty if user query includes a price if user did not include price then take it as greater then >0 otherwise whatever range the user specified
+        similarly give extra care to always filling the rating range field dont leave them empty if user query includes a rating if user did not include rating then take it as greater then >0 otherwise whatever range the user specified
+        similarly do it with number of ratings
 
-
-        note that under no circumstances are you allowed to add ny data by yourself only use what the user provided you
-
-        also treat actual price and discounted price as alias to each other
-
-        note: give extra care to if the user gave a price range or not . never miss this critical info
         """
+        # NOTE: ALWAYS give multiple matching sub categories as a list that you thing might match (atleast 3)
+        # also you must remember that if any of the field data is not present in user query always take it as >0 but if it is present use that always
 
 
-        answer = chat_gpt(prompt2)
+        answer = chat_gpt(prompt)
         st.write(answer)
 
-        prompt = f"""
+        prompt2 = f"""
 
-            The query user have in json format -   Query : {answer}
+            The thing the user wants to search in json format : -   Query : {answer}
 
             Carefully analyze and understand the below prompt and give the solution:
 
             Below is the mapping of some index in my OpenSearch database:
             mappings: {json.dumps(open_search_data.get('mappings', {}), indent=4)}
-
-
-            now based on the query 
-
-
-            Now your task is to properly understand the structure, mapping, and user queries as best as you can and then generate an OpenSearch query using that information so that I can execute that query in OpenSearch database through Kibana and return the output to the users.
+            now based on the ABOVE INFO you have to properly understand the structure, mapping, and user queries as best as you can and then generate an OpenSearch query using that information so that I can execute that query in OpenSearch database through Kibana and return the output to the users.
 
 
             [Note]
@@ -185,23 +191,19 @@ def main():
             - Name should be inside must/match clause.
 
 
-            note that under no circumstances are you allowed to add ny data by yourself only use what the I provided you in the json only
-            also treat actual price and discounted price as alias to each other
 
-            now Generate the output below:
+            name_synonyms are just the synonyms alternative of the name field values
+            there is no such field as name_synonyms
 
+            now Generate the output below :
 
-            also remember the name field should always has most importance and weitage in the searching for the matching results so adjust the query accordingly
-
-            
         """
+            # also you have to add the possible synonyms in the name field TAKING THE SYNONYMS DATA FROM THE NAME_SYNONYMS FIELDS YOU KNOW HOW TO DO IT IN ELASTIC RIGHT??
 
         
-
-        # st.write(prompt)
         
 
-        answer = chat_gpt2(prompt)
+        answer = chat_gpt2(prompt2)
         st.write(answer)
         
         query_dsl = answer
@@ -211,4 +213,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
